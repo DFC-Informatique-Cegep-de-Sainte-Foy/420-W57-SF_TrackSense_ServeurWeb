@@ -11,8 +11,7 @@ namespace TrackSense.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CompletedRidesController
-        : ControllerBase
+    public class CompletedRidesController : ControllerBase
     {
         private ManipulationRides m_ridesManipulation;
         private ManipulationUsers m_usersManipulation;
