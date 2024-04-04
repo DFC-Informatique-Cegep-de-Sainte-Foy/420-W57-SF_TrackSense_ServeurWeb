@@ -11,7 +11,7 @@ namespace TrackSense.API.Models
         public string UserLogin { get; set; } = null!;
 
         [DefaultValue("b0f07b65-3055-4f99-bc09-91829ca16fdb")]
-        public string CompletedRideId { get; set; } =null!;
+        public string CompletedRideId { get; set; } = null!;
         
         public PlannedRideModel? PlannedRide { get; set; } 
         public List<CompletedRidePointModel> CompletedRidePoints { get; set; } =null!;
