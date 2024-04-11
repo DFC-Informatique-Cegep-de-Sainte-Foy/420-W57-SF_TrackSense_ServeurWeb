@@ -157,9 +157,14 @@ namespace TrackSense.API.Services.ServiceRides
             return m_context.Locations.Find(p_locationId)?.ToEntity();
         }
 
-        public PlannedRide? GetPlannedRideById(string p_completedRideId)
+        public PlannedRide? GetPlannedRideById(string p_plannedRideId)
         {
-            return m_context.PlannedRides?.Find(p_completedRideId)?.ToEntity();
+            DTOs.PlannedRide? plannedRideDTO = m_context.PlannedRides.Where(r => r.PlannedRideId == p_plannedRideId)
+                                                                      .Include(r => r.PlannedRidePoints)
+                                                                      .ThenInclude(r => r.Location)
+                                                                      .SingleOrDefault();
+
+            return plannedRideDTO?.ToEntity();
         }
 
   
