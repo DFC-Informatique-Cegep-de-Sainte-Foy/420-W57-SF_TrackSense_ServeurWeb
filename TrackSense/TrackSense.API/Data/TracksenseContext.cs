@@ -14,6 +14,9 @@ public partial class TracksenseContext : DbContext
     {
     }
     public virtual DbSet<UserCompletedRide> UserCompletedRides { get; set; }
+
+    public virtual DbSet<UserPlannedRide> UserPlannedRides { get; set; }
+
     public virtual DbSet<Address> Addresses { get; set; }
 
     public virtual DbSet<ApplicationToken> ApplicationTokens { get; set; }

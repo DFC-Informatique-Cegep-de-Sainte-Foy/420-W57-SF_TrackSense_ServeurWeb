@@ -147,5 +147,22 @@ namespace TrackSense.API.Services.ServiceUsers
 
             return completedRides;
         }
+
+        public IEnumerable<UserPlannedRide> GetPlannedRides(string p_userLogin)
+        {
+            if (string.IsNullOrWhiteSpace(p_userLogin))
+            {
+                throw new ArgumentNullException($"{nameof(p_userLogin)} ne doit pas etre null ou vide - {nameof(ManipulationUsers)}.{nameof(GetPlannedRides)}");
+            }
+
+            IEnumerable<UserPlannedRide> plannedRides = new List<UserPlannedRide>();
+
+            if (m_depotUsers.UserExist(p_userLogin))
+            {
+                plannedRides = this.m_depotUsers.GetUserPlannedRides(p_userLogin);
+            }
+
+            return plannedRides;
+        }
     }
 }

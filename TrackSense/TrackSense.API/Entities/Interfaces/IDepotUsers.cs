@@ -37,5 +37,6 @@ namespace TrackSense.API.Entities.Interfaces
         void UpdateUserInterestPoint(UserInterestPoint p_intersetPoint);
         void DeleteUserInterestPoint(int p_intersetPointId);
         IEnumerable<UserCompletedRide> GetUserCompletedRides(string p_userLogin);
+        IEnumerable<UserPlannedRide> GetUserPlannedRides(string p_userLogin);
     }
 }
