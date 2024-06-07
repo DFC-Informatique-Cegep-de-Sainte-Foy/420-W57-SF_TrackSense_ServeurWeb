@@ -11,41 +11,41 @@ namespace TrackSense.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CompletedRidesController : ControllerBase
+    public class PlannedRidesController : ControllerBase
     {
         private ManipulationRides m_ridesManipulation;
         private ManipulationUsers m_usersManipulation;
 
-        public CompletedRidesController(ManipulationRides p_manipulationRides, ManipulationUsers p_manipulationUsers)
+        public PlannedRidesController(ManipulationRides p_manipulationRides, ManipulationUsers p_manipulationUsers)
         {
             if (p_manipulationRides == null)
             {
-                throw new ArgumentNullException("ManipulationRides ne doit pas etre null - ctor CompletedRideController");
+                throw new ArgumentNullException("ManipulationRides ne doit pas etre null - ctor PlannedRideController");
             }
             if (p_manipulationUsers == null)
             {
-                throw new ArgumentNullException("ManipulationUsers ne doit pas etre null - ctor CompletedRideController");
+                throw new ArgumentNullException("ManipulationUsers ne doit pas etre null - ctor PlannedRideController");
             }
 
             this.m_ridesManipulation = p_manipulationRides;
             this.m_usersManipulation = p_manipulationUsers;
         }
 
-        // GET api/<CompletedRidesController>/5
-        [HttpGet("{p_completedRideId}")]
+        // GET api/<PlannedRidesController>/5
+        [HttpGet("{p_plannedRideId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public ActionResult<CompletedRideModel> Get(string p_completedRideId)
+        public ActionResult<PlannedRideModel> Get(string p_plannedRideId)
         {
-            ActionResult<CompletedRideModel> response;
+            ActionResult<PlannedRideModel> response;
 
             if (!this.CheckUserToken())
             {
                 response = Unauthorized();
             }
-            else if (p_completedRideId == string.Empty)
+            else if (p_plannedRideId == string.Empty)
             {
                 response = BadRequest();
             }
@@ -53,10 +53,10 @@ namespace TrackSense.API.Controllers
             {
                 try
                 {
-                    CompletedRide? completedRide = this.m_ridesManipulation.GetCompletedRideById(p_completedRideId);
+                    PlannedRide? plannedRide = this.m_ridesManipulation.GetPlannedRideById(p_plannedRideId);
 
-                    response = completedRide != null 
-                        ? Ok(new CompletedRideModel(completedRide)) 
+                    response = plannedRide != null 
+                        ? Ok(new PlannedRideModel(plannedRide)) 
                         : NoContent();
                 }
                 catch (Exception)
@@ -73,7 +73,7 @@ namespace TrackSense.API.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public ActionResult Post([FromBody] CompletedRideModel p_completedRideModel)
+        public ActionResult Post([FromBody] PlannedRideModel p_plannedRideModel)
         {
             ActionResult response;
 
@@ -81,7 +81,7 @@ namespace TrackSense.API.Controllers
             {
                 response = Unauthorized();
             }
-            else if (p_completedRideModel == null)
+            else if (p_plannedRideModel == null)
             {
                 response = BadRequest();
             }
@@ -89,12 +89,12 @@ namespace TrackSense.API.Controllers
             {
                 try
                 {
-                    CompletedRide completedRide = p_completedRideModel.ToEntity();
-                    this.m_ridesManipulation.AddCompletedRide(completedRide);
+                    PlannedRide plannedRide = p_plannedRideModel.ToEntity();
+                    this.m_ridesManipulation.AddPlannedRide(plannedRide);
                     
-                    string url = $"api/completedRides/{completedRide.CompletedRideId}";
-                    var NewRide = this.m_ridesManipulation.GetCompletedRideById(completedRide.CompletedRideId)!;
-                    response = Created(url, new CompletedRideModel(NewRide));
+                    string url = $"api/plannedRides/{plannedRide.PlannedRideId}";
+                    var NewRide = this.m_ridesManipulation.GetPlannedRideById(plannedRide.PlannedRideId)!;
+                    response = Created(url, new PlannedRideModel(NewRide));
                 }
                 catch (Exception)
                 {

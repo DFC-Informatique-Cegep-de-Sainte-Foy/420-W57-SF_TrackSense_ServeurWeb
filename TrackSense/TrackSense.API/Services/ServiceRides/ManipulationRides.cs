@@ -32,9 +32,29 @@ namespace TrackSense.API.Services.ServiceRides
             this.m_depotRides.AddCompletedRide(p_completedRide);
         }
 
+        public void AddPlannedRide(PlannedRide p_plannedRide)
+        {
+            if(m_depotRides != null)
+            {
+                throw new ArgumentNullException($"PlannedRide ne doit pas etre null - ManipulationRides.AddPlannedRide");
+            }
+
+            if (String.IsNullOrEmpty(p_plannedRide.UserLogin))
+            {
+                throw new ArgumentNullException($"{nameof(p_plannedRide.UserLogin)} ne doit pas etre null ni vide - ManipulationRides.AddPlannedRide");
+            }
+
+            this.m_depotRides.AddPlannedRide(p_plannedRide);
+        }
+
         public CompletedRide? GetCompletedRideById(string p_completedRideId)
         {
             return this.m_depotRides.GetCompletedRideById(p_completedRideId);
+        }
+
+        public PlannedRide? GetPlannedRideById(string p_plannedRideId)
+        {
+            return this.m_depotRides.GetPlannedRideById(p_plannedRideId);
         }
     }
 }

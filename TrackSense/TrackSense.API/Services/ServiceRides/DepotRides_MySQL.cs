@@ -8,6 +8,7 @@ namespace TrackSense.API.Services.ServiceRides
     public class DepotRides_MySQL : IDepotRides
     {
         private readonly TracksenseContext m_context;
+
         public DepotRides_MySQL(TracksenseContext tracksenseContext)
         {
             if(tracksenseContext == null)
@@ -16,6 +17,8 @@ namespace TrackSense.API.Services.ServiceRides
             }
             this.m_context = tracksenseContext;
         }
+
+
         public void AddCompletedRide(CompletedRide p_comletedRide)
         {
             if(p_comletedRide == null)
@@ -34,18 +37,17 @@ namespace TrackSense.API.Services.ServiceRides
 
         }
 
-        public void AddCompletedRidePoint(CompletedRidePoint p_comletedRidePoint)
+        public void AddPlannedRide(PlannedRide p_plannedRide)
         {
-            m_context.CompletedRidePoints.Add(new DTOs.CompletedRidePoint(p_comletedRidePoint));
+            m_context.PlannedRides.Add(new DTOs.PlannedRide(p_plannedRide));
 
             m_context.SaveChanges();
             m_context.ChangeTracker.Clear();
         }
 
-
-        public void AddPlannedRide(PlannedRide p_plannedRide)
+        public void AddCompletedRidePoint(CompletedRidePoint p_comletedRidePoint)
         {
-            m_context.PlannedRides.Add(new DTOs.PlannedRide(p_plannedRide));
+            m_context.CompletedRidePoints.Add(new DTOs.CompletedRidePoint(p_comletedRidePoint));
 
             m_context.SaveChanges();
             m_context.ChangeTracker.Clear();
@@ -155,9 +157,14 @@ namespace TrackSense.API.Services.ServiceRides
             return m_context.Locations.Find(p_locationId)?.ToEntity();
         }
 
-        public PlannedRide? GetPlannedRideById(string p_completedRideId)
+        public PlannedRide? GetPlannedRideById(string p_plannedRideId)
         {
-            return m_context.PlannedRides?.Find(p_completedRideId)?.ToEntity();
+            DTOs.PlannedRide? plannedRideDTO = m_context.PlannedRides.Where(r => r.PlannedRideId == p_plannedRideId)
+                                                                      .Include(r => r.PlannedRidePoints)
+                                                                      .ThenInclude(r => r.Location)
+                                                                      .SingleOrDefault();
+
+            return plannedRideDTO?.ToEntity();
         }
 
   

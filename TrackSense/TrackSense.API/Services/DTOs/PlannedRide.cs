@@ -9,7 +9,7 @@ public class PlannedRide
     [Key]
     public string PlannedRideId { get; set; }
 
-    public string UserLogin { get; set; } = string.Empty!;
+    public string UserLogin { get; set; } = null!;
 
     public string? Name { get; set; }
 
@@ -17,7 +17,7 @@ public class PlannedRide
 
     public virtual ICollection<CompletedRide> CompletedRides { get; set; }
 
-    public virtual ICollection <PlannedRidePoint> PlannedRidePoints { get; set; } 
+    public virtual ICollection <PlannedRidePoint> PlannedRidePoints { get; set; }
 
     public virtual PlannedRideStatistic PlannedRideStatistic { get; set; }
 
@@ -40,13 +40,13 @@ public class PlannedRide
             throw new ArgumentNullException(nameof(p_plannedRide.PlannedRideId));
         }
 
-        this.PlannedRidePoints = p_plannedRide.PlannedRidePoints.Select(p => new DTOs.PlannedRidePoint(p)).ToList();
-
-        this.PlannedRideId = p_plannedRide.PlannedRideId;
         this.UserLogin = p_plannedRide.UserLogin;
+        this.PlannedRideId = p_plannedRide.PlannedRideId;
         this.Name = p_plannedRide.Name;
         this.IsFavorite = p_plannedRide.IsFavorite;
-
+        this.PlannedRidePoints = p_plannedRide.PlannedRidePoints
+                                                .Select(p => new DTOs.PlannedRidePoint(p))
+                                                .ToList();
     }
 
     public Entities.PlannedRide ToEntity()

@@ -136,6 +136,25 @@ namespace TrackSense.API.Services.ServiceUsers
                 
         }
 
+        public IEnumerable<UserPlannedRide> GetUserPlannedRides(string p_userLogin)
+        {
+            List<UserPlannedRide> userPlannedRides = new List<UserPlannedRide>();
+            try
+            {
+                userPlannedRides = m_context.UserPlannedRides
+                                                    .Where(upr => upr.UserLogin == p_userLogin)
+                                                    .Select(upr => upr.ToEntity())
+                                                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return userPlannedRides;
+
+        }
+
         public UserContact? GetUserContactById(int p_userLogin)
         {
             throw new NotImplementedException();

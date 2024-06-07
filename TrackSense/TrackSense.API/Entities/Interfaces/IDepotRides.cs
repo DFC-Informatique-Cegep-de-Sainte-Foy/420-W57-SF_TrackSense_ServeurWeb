@@ -25,7 +25,7 @@ namespace TrackSense.API.Entities.Interfaces
 
         // PlannedRide
         IEnumerable<PlannedRide> GetAllPlannedRidesByUser(string p_userLogin);
-        PlannedRide? GetPlannedRideById(string p_completedRideId);
+        PlannedRide? GetPlannedRideById(string p_plannedRideId);
         void UpdatePlannedRide(PlannedRide p_plannedRide);
         void DeletePlannedRideById(string p_plannedRideId);
         void AddPlannedRide(PlannedRide p_plannedRide);
